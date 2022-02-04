@@ -1,0 +1,11 @@
+spring:
+  rabbitmq:
+    username: ${RABBITMQ_USER:user}
+    password: ${RABBITMQ_PASSWORD:password}
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    port: ${RABBITMQ_PORT:5672}
+    virtual-host: ${RABBITMQ_VHOST:bayes}
+server:
+  port: 8180
+live-data:
+  queue: ${LD_QUEUE:test}

@@ -1,0 +1,32 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - dota_api_gelf:/usr/share/elasticsearch/data:rw
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.10.2
+    ports:
+      - 5514:5514
+      - 12201:12201
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - ./logstash.conf:/etc/logstash/conf.d/logstash.conf
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:7.10.2
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+
+
+volumes:
+  dota_api_gelf:
+    driver: local
